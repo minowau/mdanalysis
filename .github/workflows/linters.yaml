@@ -17,7 +17,7 @@ defaults:
 
 jobs:
   black:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+   
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
@@ -47,7 +47,7 @@ jobs:
 
 
   pylint_check:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

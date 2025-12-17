@@ -8,9 +8,9 @@ on:
 
 jobs:
   greeting:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    if: "'"
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
       pull-requests: write
     steps:

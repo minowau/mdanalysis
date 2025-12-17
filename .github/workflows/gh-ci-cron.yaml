@@ -28,7 +28,7 @@ env:
 jobs:
   # a pip only, minimal deps install w/ scipy & numpy nightly upstream wheels
   numpy_and_scipy_dev:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
