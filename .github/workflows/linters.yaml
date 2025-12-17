@@ -69,7 +69,7 @@ jobs:
 
 
   mypy:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ubuntu-latest
     timeout-minutes: 45  # INCREASED: Prevents 10m hard kill on slow installs
     defaults:
