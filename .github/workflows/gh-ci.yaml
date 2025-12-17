@@ -21,7 +21,7 @@ defaults:
 
 jobs:
   main_tests:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -150,9 +150,9 @@ jobs:
 
 
   build_docs:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       CYTHON_TRACE_NOGIL: 1
       MPLBACKEND: agg
@@ -251,9 +251,9 @@ jobs:
 
 
   sdist_check_and_build:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
 
     steps:
     - uses: actions/checkout@v4
