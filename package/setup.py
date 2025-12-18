@@ -668,3 +668,4 @@ if __name__ == "__main__":
                     "Warning: failed to delete cythonized file {0}: {1}. "
                     "Moving on.".format(cythonized, err.strerror)
                 )
+#SHIPPED_END
