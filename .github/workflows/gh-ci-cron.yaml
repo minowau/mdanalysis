@@ -86,7 +86,7 @@ jobs:
 
   # Issue #3442
   native_march:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -134,7 +134,7 @@ jobs:
 
 
   old_ubuntu_macos:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -182,7 +182,7 @@ jobs:
 
   # Issue 1727
   pip-only-develop:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
@@ -223,7 +223,7 @@ jobs:
   # Issue 4208
   conda-latest-release:
     # A set of runner to check that the latest conda release works as expected
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
@@ -269,7 +269,7 @@ jobs:
           
   pypi-latest-release:
     # A set of runner to check that the latest conda release works as expected
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     strategy:
