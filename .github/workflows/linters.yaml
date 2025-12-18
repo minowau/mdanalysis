@@ -100,7 +100,7 @@ jobs:
           cache-downloads: true
 
       - name: install_deps
-        uses: ./.github/actions/setup-install_deps
+        uses: ./.github/actions/setup-deps
         with:
           micromamba: true
           full-deps: true
