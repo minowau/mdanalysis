@@ -17,7 +17,7 @@ defaults:
 
 jobs:
   black:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+   
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
@@ -47,7 +47,7 @@ jobs:
 
 
   pylint_check:
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+    
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -68,13 +68,19 @@ jobs:
         pylint package/MDAnalysis && pylint testsuite/MDAnalysisTests
 
 
-  mypy :
-    if: "github.repository == 'MDAnalysis/mdanalysis'"
+  mypy:
+    
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 45  # INCREASED: Prevents 10m hard kill on slow installs
+    defaults:
+      run:
+        shell: bash -l {0}
+
     steps:
       - uses: actions/checkout@v4
 
+      # OPTIMIZATION: Setup micromamba with aggressive caching
+      # This effectively "freezes" the environment after the first successful build.
       - name: setup_micromamba
         uses: mamba-org/setup-micromamba@v2
         with:
@@ -82,18 +88,36 @@ jobs:
           create-args: >-
             python=3.11
             pip
+            numpy=1.26.0
+            rdkit=2023.09.3
           condarc: |
             channels:
               - conda-forge
               - bioconda
+          cache-environment: true
+          # Cache key includes setup.py hash to ensure updates when deps change
+          cache-environment-key: mda-env-${{ runner.os }}-py3.11-${{ hashFiles('package/setup.py', '.github/actions/setup-deps/action.yml') }}
+          cache-downloads: true
 
       - name: install_deps
-        uses: ./.github/actions/setup-deps
+        uses: ./.github/actions/setup-install_deps
         with:
           micromamba: true
           full-deps: true
           numpy: numpy=1.26.0
           rdkit: rdkit=2023.09.3
+
+      # OPTIMIZATION: Restore mypy analysis cache
+      # This speeds up the actual analysis step by reusing previous results.
+      - name: Restore mypy cache
+        uses: actions/cache@v4
+        with:
+          path: .mypy_cache
+          # The key uses the commit hash, but 'restore-keys' allows falling back to previous commits
+          key: mypy-cache-${{ runner.os }}-py3.11-${{ hashFiles('package/setup.py') }}-${{ github.sha }}
+          restore-keys: |
+            mypy-cache-${{ runner.os }}-py3.11-${{ hashFiles('package/setup.py') }}-
+            mypy-cache-${{ runner.os }}-py3.11-
 
       - name: install
         run: |
@@ -101,4 +125,5 @@ jobs:
 
       - name: "Run mypy"
         run: |
+          # The first run populates the cache; subsequent runs read from it.
           mypy package/MDAnalysis/
