@@ -2753,4 +2753,5 @@ def is_installed(modulename: str):
 
     .. versionadded:: 2.8.0
     """
+    import importlib.util
     return importlib.util.find_spec(modulename) is not None
